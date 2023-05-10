@@ -53,7 +53,6 @@ yarn-error.log
 !.vscode/extensions.json
 .history/*
 
-
 # Miscellaneous
 /.angular
 /.angular/cache
@@ -63,7 +62,7 @@ yarn-error.log
 /libpeerconnection.log
 testem.log
 /typings
-/.env
+.env
 environment.ts
 
 # System files
