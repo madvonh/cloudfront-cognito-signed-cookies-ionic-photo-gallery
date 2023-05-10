@@ -1,0 +1,63 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Sign up</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Sign up</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <form #signUpForm="ngForm" (ngSubmit)="auth.signUp(emailInput.value, passwordInput.value)" novalidate>
+    <ion-item lines="full">
+      <ion-input 
+          label="Email" 
+          type="email" 
+          placeholder="email@domain.com" 
+          [ngClass]="{'ion-invalid': !emailInput.valid && emailInput.touched}"
+          helper-text="Enter email address as username" 
+          labelPlacement="floating" 
+          #emailInput
+          ngModel
+          name="email"
+          required
+          [email]="true"
+        ></ion-input>
+        <div class="error-message" *ngIf="emailInput.invalid && emailInput.touched">
+          <div *ngIf="emailInput.errors.required">Email is required.</div>
+          <div *ngIf="emailInput.errors.email">Email is invalid.</div>
+        </div>
+    </ion-item>
+
+    <ion-item lines="full">
+      <ion-input 
+          label="Password" 
+          type="password" 
+          placeholder="**********" 
+          helper-text="The password needs to contain a uppercase, lowercase, symbol and number" 
+          labelPlacement="floating" 
+          #passwordInput
+          ngModel
+          name="password"
+          required
+        ></ion-input>
+    </ion-item>
+
+    <ion-row>
+      <ion-col>
+        <small>
+          <p *ngIf="auth.errorMessage" class="error-message">{{ auth.errorMessage }}</p>
+          <ion-button type="submit" color="primary" expand="block" [disabled]="!signUpForm.valid">Sign up</ion-button>
+          Do you have an account? <a [routerLink]="['/login']" expand="block" color="primary">Sign in</a><br>
+          Do you need to verify your email? <a [routerLink]="['/verify-email']" expand="block" color="primary">Verify email</a><br>
+        </small>
+      </ion-col>
+    </ion-row>
+  </form>
+</ion-content>

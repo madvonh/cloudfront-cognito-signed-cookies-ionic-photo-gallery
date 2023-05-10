@@ -1,0 +1,46 @@
+import { Component } from '@angular/core';
+import { ActionSheetController } from '@ionic/angular';
+import { PhotoService } from '../services/photo.service';
+import { environment } from 'src/environments/environment';
+
+
+@Component({
+  selector: 'app-tab2',
+  templateUrl: 'tab2.page.html',
+  styleUrls: ['tab2.page.scss'],
+})
+export class Tab2Page {
+  private imagesBaseUrl = environment.CLOUDFRONT.IMAGE_ENDPOINT
+
+  constructor(public photoService: PhotoService, public actionSheetController: ActionSheetController) {}
+
+  async ngOnInit() {
+    await this.photoService.loadSaved();
+  }
+
+  public async showActionSheet(fileName: string, position: number) {
+    const actionSheet = await this.actionSheetController.create({
+      header: 'Photos',
+      buttons: [{
+        text: 'Delete',
+        role: 'destructive',
+        icon: 'trash',
+        handler: () => {
+          this.photoService.deletePicture(fileName, position);
+        }
+      }, {
+        text: 'Cancel',
+        icon: 'close',
+        role: 'cancel',
+        handler: () => {
+          // Nothing to do, action sheet is automatically closed
+         }
+      }]
+    });
+    await actionSheet.present();
+  }
+
+  addPhotoToGallery() {
+    this.photoService.addNewToGallery();
+  }
+}
